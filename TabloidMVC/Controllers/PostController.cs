@@ -28,6 +28,13 @@ namespace TabloidMVC.Controllers
             return View(posts);
         }
 
+        public IActionResult MyPosts()
+        {
+            int currentUserId = GetCurrentUserProfileId();
+            var posts = _postRepository.GetAllCurrentUserPublishedPosts(currentUserId);
+            return View(posts);
+        }
+
         public IActionResult Details(int id)
         {
             var post = _postRepository.GetPublisedPostById(id);
@@ -118,7 +125,6 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                post.IsApproved = true;
                 _postRepository.UpdatePost(post);
 
                 return RedirectToAction("Index");
