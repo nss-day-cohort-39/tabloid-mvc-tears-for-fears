@@ -1,6 +1,4 @@
-﻿@using static System.Security.Claims.ClaimTypes;
-
-@model IEnumerable<TabloidMVC.Models.Post>
+﻿@model IEnumerable<TabloidMVC.Models.Post>
 
 @{
     ViewData["Title"] = "Index";
@@ -48,24 +46,15 @@
                         @Html.DisplayFor(modelItem => item.PublishDateTime)
                     </td>
                     <td>
-                        @if (int.Parse(User.FindFirst(NameIdentifier).Value) == item.UserProfileId)
-                        {
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Edit">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        }
-                        else
-                        {
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="View">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="View">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
             }

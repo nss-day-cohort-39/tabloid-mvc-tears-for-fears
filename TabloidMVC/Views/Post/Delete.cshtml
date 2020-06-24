@@ -1,0 +1,39 @@
+﻿@model TabloidMVC.Models.Post
+
+@{
+    ViewData["Title"] = $"DeletePost - {Model.Title}";
+}
+
+
+<div class="container pt-5">
+    <div class="post">
+        <section class="px-3">
+            <div class="row justify-content-between">
+    <h3 class="text-danger">Are you sure you want to delete this post?</h3>
+                <h1 class="text-secondary">@Model.Title</h1>
+                <h1 class="text-black-50">@Model.Category.Name</h1>
+            </div>
+            <div class="row justify-content-between">
+                <p class="text-secondary">Written by @Model.UserProfile.DisplayName</p>
+                <p class="text-black-50">Published on @Html.DisplayFor(model => model.PublishDateTime)</p>
+            </div>
+        </section>
+        <hr />
+        @if (!string.IsNullOrWhiteSpace(Model.ImageLocation))
+        {
+        <section class="row justify-content-center">
+            <div>
+                <img src="@Model.ImageLocation" />
+            </div>
+        </section>
+        }
+        <section class="row">
+            <p class="col-sm-12 mt-5">@Html.DisplayFor(model => model.Content)</p>
+        </section>
+
+        <form asp-action="Delete">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
+</div>
