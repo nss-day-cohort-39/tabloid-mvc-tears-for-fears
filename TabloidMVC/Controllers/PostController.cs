@@ -131,7 +131,6 @@ namespace TabloidMVC.Controllers
             }
             catch
             {
-                post.IsApproved = true;
                 var categoryOptions = _categoryRepository.GetAll();
 
                 var vm = new PostCreateViewModel()
