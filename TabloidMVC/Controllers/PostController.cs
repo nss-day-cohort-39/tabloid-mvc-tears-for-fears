@@ -5,6 +5,8 @@ using Microsoft.VisualBasic;
 using System.Security.Claims;
 using TabloidMVC.Models.ViewModels;
 using TabloidMVC.Repositories;
+using System;
+using TabloidMVC.Models;
 
 namespace TabloidMVC.Controllers
 {
@@ -23,6 +25,13 @@ namespace TabloidMVC.Controllers
         public IActionResult Index()
         {
             var posts = _postRepository.GetAllPublishedPosts();
+            return View(posts);
+        }
+
+        public IActionResult MyPosts()
+        {
+            int currentUserId = GetCurrentUserProfileId();
+            var posts = _postRepository.GetAllCurrentUserPublishedPosts(currentUserId);
             return View(posts);
         }
 
@@ -64,6 +73,72 @@ namespace TabloidMVC.Controllers
             catch
             {
                 vm.CategoryOptions = _categoryRepository.GetAll();
+                return View(vm);
+            }
+        }
+
+        // GET: Post/Delete/5
+        public ActionResult Delete(int id)
+        {
+            int userProfileId = GetCurrentUserProfileId();
+            var post = _postRepository.GetUserPostById(id, userProfileId);
+
+            return View(post);
+        }
+
+        // POST: Post/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, Post post)
+        {
+            try
+            {
+                _postRepository.DeletePost(id);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(post);
+            }
+        }
+        // GET: Post/Edit/5
+        public ActionResult Edit(int id)
+        {
+            int userProfileId = GetCurrentUserProfileId();
+            var post = _postRepository.GetUserPostById(id, userProfileId);
+            var categoryOptions = _categoryRepository.GetAll();
+
+            var vm = new PostCreateViewModel()
+            {
+                Post = post,
+                CategoryOptions = categoryOptions
+            };
+
+            return View(vm);
+        }
+
+        // POST: PostsController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Post post)
+        {
+            try
+            {
+                _postRepository.UpdatePost(post);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                var categoryOptions = _categoryRepository.GetAll();
+
+                var vm = new PostCreateViewModel()
+                {
+                    Post = post,
+                    CategoryOptions = categoryOptions
+                };
+
                 return View(vm);
             }
         }
