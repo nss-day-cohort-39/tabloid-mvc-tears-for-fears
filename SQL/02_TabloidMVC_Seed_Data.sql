@@ -2,7 +2,7 @@ USE [TabloidMVC]
 GO
 
 SET IDENTITY_INSERT [UserType] ON
-INSERT INTO [UserType] ([ID], [Name]) VALUES (1, 'Author'), (2, 'Admin');
+INSERT INTO [UserType] ([ID], [Name]) VALUES (1, 'Admin'), (2, 'Author');
 SET IDENTITY_INSERT [UserType] OFF
 
 
