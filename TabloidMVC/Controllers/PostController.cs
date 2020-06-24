@@ -129,7 +129,7 @@ namespace TabloidMVC.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
                 var categoryOptions = _categoryRepository.GetAll();
 
