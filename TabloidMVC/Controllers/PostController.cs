@@ -15,11 +15,13 @@ namespace TabloidMVC.Controllers
     {
         private readonly PostRepository _postRepository;
         private readonly CategoryRepository _categoryRepository;
+        private readonly TagRepository _tagRepository;
 
         public PostController(IConfiguration config)
         {
             _postRepository = new PostRepository(config);
             _categoryRepository = new CategoryRepository(config);
+            _tagRepository = new TagRepository(config);
         }
 
         public IActionResult Index()
@@ -41,7 +43,7 @@ namespace TabloidMVC.Controllers
             if (post == null)
             {
                 int userId = GetCurrentUserProfileId();
-                post = _postRepository.GetUserPostById(id, userId);
+                post = _postRepository.GetPublisedPostById(id);
                 if (post == null)
                 {
                     return NotFound();

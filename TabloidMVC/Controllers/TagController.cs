@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using TabloidMVC.Models;
@@ -96,7 +93,7 @@ namespace TabloidMVC.Controllers
                 _tagRepository.DeleteTag(id);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
                 return View(tag);
             }
