@@ -58,7 +58,8 @@ namespace TabloidMVC.Repositories
         {
             return new Comment()
             {
-                Id = reader.GetInt32(reader.GetOrdinal("Id")),               
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Subject = reader.GetString(reader.GetOrdinal("Subject")),
                 Content = reader.GetString(reader.GetOrdinal("Content")),
                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
                 PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
