@@ -6,26 +6,17 @@
 
     <h1>@Model.Post.Title</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Post.Id">Add New Comment</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Comment.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment.PostId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Comment.Subject)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment.Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment.UserProfileId)
-            </th>
+            </th>            
             <th>
                 @Html.DisplayNameFor(model => model.Comment.CreateDateTime)
             </th>
@@ -36,19 +27,10 @@
 @foreach (var item in @Model.PostComments) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserProfileId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreateDateTime)

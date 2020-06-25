@@ -17,20 +17,21 @@
                 <p class="text-secondary">Written by @Model.UserProfile.DisplayName</p>
                 <p class="text-black-50">Published on @Html.DisplayFor(model => model.PublishDateTime)</p>
             </div>
-            @if (int.Parse(User.FindFirst(NameIdentifier).Value) == Model.UserProfileId)
-            {
-        <div class="row">
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
-                <i class="fas fa-pencil-alt"></i>
-            </a>
-            <a  asp-controller="Comment" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Post Comment" >
-                <i class="fas fa-comment"></i>
-            </a>
-            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
-                <i class="fas fa-trash"></i>
-            </a>
-        </div>
-            }
+            <div class="row">
+                @if (int.Parse(User.FindFirst(NameIdentifier).Value) == Model.UserProfileId)
+                {
+
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                }
+                <a asp-controller="Comment" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Post Comment">
+                    <i class="fas fa-comment"></i>
+                </a>
+            </div>
         </section>
         <hr />
         @if (!string.IsNullOrWhiteSpace(Model.ImageLocation))

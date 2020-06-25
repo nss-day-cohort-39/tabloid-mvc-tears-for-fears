@@ -63,7 +63,7 @@ namespace TabloidMVC.Repositories
                 PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
                 Post = new Post
                 {
-                    Id = reader.GetInt32(reader.GetOrdinal("Post_Id")),
+                    Id = reader.GetInt32(reader.GetOrdinal("PostId")),
                     Title = reader.GetString(reader.GetOrdinal("PostTitle"))
                 },
                 UserProfile = new UserProfile()
@@ -82,13 +82,49 @@ namespace TabloidMVC.Repositories
                 {
                     cmd.CommandText = @"INSERT INTO Comment(PostId, UserProfileId, Subject, Content, CreateDateTime) 
                                         OUTPUT INSERTED.Id
-                                        VALUES(@postId, @userProfileId, @subject,@content, @createDateTime)";
+                                        VALUES(@postId, @userProfileId, @subject, @content, @createDateTime)";
                     cmd.Parameters.AddWithValue("@postId", comment.PostId);
                     cmd.Parameters.AddWithValue("@userProfileId", comment.UserProfileId);
                     cmd.Parameters.AddWithValue("@subject", comment.Subject);
                     cmd.Parameters.AddWithValue("@content", comment.Content);
                     cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
                     comment.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public List<Comment> GetCommentsByPostId(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT 
+                            c.Id, 
+                            c.PostId, 
+                            c.UserProfileId, 
+                            c.Content, 
+                            c.Subject, 
+                            c.CreateDateTime,
+                            p.Id as Post_Id,
+                            p.Title as PostTitle,
+                            u.Id as UserProfile_Id,
+                            u.DisplayName
+                            FROM Comment c
+                            LEFT JOIN Post p ON p.Id = c.PostId
+                            LEFT JOIN UserProfile u ON u.Id = c.UserProfileId
+                            WHERE c.PostId = @postId
+                            ORDER BY c.CreateDateTime DESC";
+                    cmd.Parameters.AddWithValue("@postId", id);
+                    var reader = cmd.ExecuteReader();
+                    var comments = new List<Comment>();
+                    while (reader.Read())
+                    {
+                        comments.Add(NewCommentFromReader(reader));
+                    }
+                    reader.Close();
+                    return comments;
                 }
             }
         }
