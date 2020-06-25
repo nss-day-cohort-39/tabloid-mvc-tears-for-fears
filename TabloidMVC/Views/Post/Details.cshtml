@@ -19,14 +19,20 @@
             </div>
             @if (int.Parse(User.FindFirst(NameIdentifier).Value) == Model.UserProfileId)
             {
-                <div class="row">
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </div>
+            <div class="row">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </a>
+                <a asp-controller="PostTag" asp-action="ManageAddTags" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Add Tag">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a asp-controller="PostTag" asp-action="ManageRemoveTags" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete Tag">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
             }
         </section>
         <hr />
