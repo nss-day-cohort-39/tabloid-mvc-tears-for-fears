@@ -4,10 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-    <h1>@Model.Post.Title</h1>
-<p>
-    <a asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Post.Id">Add New Comment</a>
-</p>
+    @*<h1>@Model.Post.Title</h1>*@
+    <p>
+        <a asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Post.Id">Add New Comment</a> | 
+        <a asp-action="Details" asp-controller="Post" asp-route-id="@Model.Post.Id">Back to Post</a>
+    </p>
 <table class="table">
     <thead>
         <tr>
@@ -36,9 +37,12 @@
                 @Html.DisplayFor(modelItem => item.CreateDateTime)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id})
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </a>
             </td>
         </tr>
 }

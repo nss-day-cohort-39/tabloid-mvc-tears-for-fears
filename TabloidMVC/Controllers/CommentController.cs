@@ -24,7 +24,7 @@ namespace TabloidMVC.Controllers
         // GET: CommentController
         public ActionResult Index(int id)
         {
-            var comments = _commentRepo.GetAllCommentsByPosts(id);
+            var comments = _commentRepo.GetCommentsByPostId(id);
             Post post = _postRepo.GetPublisedPostById(id);
             var vm = new CommentIndexViewModel()
             {
@@ -92,21 +92,32 @@ namespace TabloidMVC.Controllers
         // GET: CommentController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            int userProfileId = GetCurrentUserProfileId();
+            var comments = _commentRepo.GetCommentsByPostId(id);
+            Post post = _postRepo.GetPublisedPostById(id);
+            //var comment = _commentRepo.GetUserCommentById(id, userProfileId);
+
+            var vm = new CommentIndexViewModel()
+            {
+                PostComments = comments,
+                Post = post
+            };
+            return View(vm);
         }
 
         // POST: CommentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, CommentIndexViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _commentRepo.DeleteComment(id);
+                return RedirectToAction("Index", "Post");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(vm);
             }
         }
         private int GetCurrentUserProfileId()

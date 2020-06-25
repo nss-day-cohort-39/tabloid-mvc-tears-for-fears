@@ -12,7 +12,8 @@ namespace TabloidMVC.Repositories
     public class CommentRepository: BaseRepository
     {
         public CommentRepository(IConfiguration config) : base(config) { }
-        public List<Comment> GetAllCommentsByPosts(int postId)
+        
+        public Comment GetUserCommentById(int id, int userProfileId)
         {
             using (var conn = Connection)
             {
@@ -20,7 +21,7 @@ namespace TabloidMVC.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                       SELECT 
+                        SELECT 
                             c.Id, 
                             c.PostId, 
                             c.UserProfileId, 
@@ -34,22 +35,22 @@ namespace TabloidMVC.Repositories
                             FROM Comment c
                             LEFT JOIN Post p ON p.Id = c.PostId
                             LEFT JOIN UserProfile u ON u.Id = c.UserProfileId
-                            WHERE c.PostId = @postId
-                            ORDER BY c.CreateDateTime DESC";
+                            WHERE c.PostId = @id";
 
-                    cmd.Parameters.AddWithValue("@postId", postId);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
                     var reader = cmd.ExecuteReader();
 
-                    var comments = new List<Comment>();
+                    Comment comment = null;
 
-                    while (reader.Read())
+                    if (reader.Read())
                     {
-                        comments.Add(NewCommentFromReader(reader));
+                        comment = NewCommentFromReader(reader);
                     }
 
                     reader.Close();
 
-                    return comments;
+                    return comment;
                 }
             }
         }
@@ -89,6 +90,24 @@ namespace TabloidMVC.Repositories
                     cmd.Parameters.AddWithValue("@content", comment.Content);
                     cmd.Parameters.AddWithValue("@createDateTime", comment.CreateDateTime);
                     comment.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        public void DeleteComment(int Id)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM Comment
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", Id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
