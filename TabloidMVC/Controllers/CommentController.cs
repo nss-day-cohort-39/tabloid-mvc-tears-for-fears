@@ -28,7 +28,8 @@ namespace TabloidMVC.Controllers
         {
             var comments = _commentRepo.GetCommentsByPostId(id);
             Post post = _postRepo.GetPublisedPostById(id);
-            var userProfile = _userRepo.GetUserById(post.UserProfileId);
+            int profileId = GetCurrentUserProfileId();
+            var userProfile = _userRepo.GetUserById(profileId);
             var vm = new CommentIndexViewModel()
             {
                 PostComments = comments,
