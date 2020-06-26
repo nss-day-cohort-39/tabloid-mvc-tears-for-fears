@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using TabloidMVC.Repositories;
 
 namespace TabloidMVC.Controllers
 {
+    [Authorize]
     public class UserProfileController : Controller
     {
 
@@ -114,6 +116,7 @@ namespace TabloidMVC.Controllers
                 }
                 catch (Exception ex)
                 {
+                    ViewData["Error Message"] = ex.Message;
                     return View(userProfile);
                 }
             }
@@ -153,6 +156,7 @@ namespace TabloidMVC.Controllers
                 }
                 catch (Exception ex)
                 {
+                    ViewData["Error Message"] = ex.Message;
                     return View(userProfile);
                 }
             }

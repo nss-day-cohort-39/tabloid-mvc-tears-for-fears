@@ -12,6 +12,12 @@
                 <h1 class="text-secondary">@Model.DisplayName</h1>
                 <h1 class="text-black-50">@Model.FullName</h1>
             </div>
+            @if (@ViewData["Error Message"] != null)
+            {
+                <div class="alert alert-danger text-lg-center">
+                    @ViewData["Error Message"]
+                </div>
+            }
         </section>
         <hr />
         @if (!string.IsNullOrWhiteSpace(Model.ImageLocation))
