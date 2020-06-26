@@ -27,10 +27,10 @@
                         <i class="fas fa-trash"></i>
                     </a>
                     <a asp-controller="PostTag" asp-action="ManageAddTags" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Add Tag">
-                        <i class="fas fa-pencil-alt"></i>
+                        <i class="fas fa-tags"></i>
                     </a>
                     <a asp-controller="PostTag" asp-action="ManageRemoveTags" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Delete Tag">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-remove"></i>
                     </a>
                 }
                 <a asp-controller="Comment" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-outline-primary mx-1" title="Post Comment">
