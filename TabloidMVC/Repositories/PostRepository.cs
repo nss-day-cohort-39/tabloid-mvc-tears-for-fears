@@ -240,6 +240,7 @@ namespace TabloidMVC.Repositories
                 }
             };
         }
+
         public void UpdatePost(Post post)
         {
             using (SqlConnection conn = Connection)
