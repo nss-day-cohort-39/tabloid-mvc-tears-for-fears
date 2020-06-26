@@ -6,5 +6,6 @@ namespace TabloidMVC.Models.ViewModels
         public Post Post { get; set; }
         public Comment Comment { get; set; }
         public List<Comment> PostComments { get; set; }
+        public UserProfile UserProfile { get; set; }
     }
 }

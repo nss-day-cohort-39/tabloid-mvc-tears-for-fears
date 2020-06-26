@@ -13,11 +13,14 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.UserProfile.DisplayName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Comment.Subject)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment.Content)
-            </th>            
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comment.CreateDateTime)
             </th>
@@ -27,6 +30,9 @@
     <tbody>
 @foreach (var item in @Model.PostComments) {
         <tr>
+            <td>
+                @Model.UserProfile.DisplayName
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>

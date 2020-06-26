@@ -16,20 +16,24 @@ namespace TabloidMVC.Controllers
     {
         public readonly CommentRepository _commentRepo;
         public readonly PostRepository _postRepo;
+        public readonly UserProfileRepository _userRepo;
         public CommentController(IConfiguration config)
         {
             _commentRepo = new CommentRepository(config);
             _postRepo = new PostRepository(config);
+            _userRepo = new UserProfileRepository(config);
         }
         // GET: CommentController
         public ActionResult Index(int id)
         {
             var comments = _commentRepo.GetCommentsByPostId(id);
             Post post = _postRepo.GetPublisedPostById(id);
+            var userProfile = _userRepo.GetUserById(post.UserProfileId);
             var vm = new CommentIndexViewModel()
             {
                 PostComments = comments,
-                Post = post
+                Post = post,
+                UserProfile = userProfile
             };
             return View(vm);
         }
@@ -45,6 +49,7 @@ namespace TabloidMVC.Controllers
         {
             CommentIndexViewModel vm = new CommentIndexViewModel();
             vm.PostComments = _commentRepo.GetCommentsByPostId(id);
+            vm.Post = _postRepo.GetPublisedPostById(id);
             return View(vm);
         }
 
@@ -71,21 +76,33 @@ namespace TabloidMVC.Controllers
         // GET: CommentController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Comment comment = _commentRepo.GetCommentById(id);
+            int profileId = GetCurrentUserProfileId();
+
+            if (profileId == comment.UserProfileId)
+            {
+                return View(comment);
+            }
+            else
+            {
+                return RedirectToAction("Index", new { id = id });
+            }
         }
 
         // POST: CommentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Comment comment)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _commentRepo.UpdateComment(comment);
+
+                return RedirectToAction("Index", "Comment", new { id = comment.PostId });
             }
             catch
             {
-                return View();
+                return View(comment);
             }
         }
 
