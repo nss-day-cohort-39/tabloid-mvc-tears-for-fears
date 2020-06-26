@@ -1,0 +1,60 @@
+﻿@model TabloidMVC.Models.ViewModels.CommentIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    @*<h1>@Model.Post.Title</h1>*@
+<div class="p-4"></div>
+    <p>
+        <a asp-action="Create" asp-controller="Comment" asp-route-id="@Model.Post.Id">Add New Comment</a> | 
+        <a asp-action="Details" asp-controller="Post" asp-route-id="@Model.Post.Id">Back to Post</a>
+    </p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserProfile.DisplayName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment.CreateDateTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in @Model.PostComments) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserProfile.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDateTime)
+            </td>
+            <td>
+                @if (@Model.UserProfile.Id == item.UserProfileId)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Edit">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                    <form asp-route-id="@item.Id" asp-action="Delete">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </form>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
